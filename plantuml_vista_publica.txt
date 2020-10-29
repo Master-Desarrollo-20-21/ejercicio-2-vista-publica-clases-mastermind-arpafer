@@ -1,0 +1,75 @@
+@startuml
+
+class Mastermind {
+   + play()
+   + resume()
+   + exit()
+   
+}
+
+Mastermind *--> "10" Attempt
+
+Mastermind *--> SecretCombination
+
+class Combination {
+   
+  + show();
+}
+class SecretCombination {
+   + generate()
+   + String testMessage(Combination combination)
+   + int countAciertos(Combination combination)
+   + int countSemiaciertos(Combination combination)
+   + int countFallos(Combination combination)
+   + show()
+}
+SecretCombination ..> Console
+Combination ..> Console
+
+class ProposedCombination {
+   + readInput()
+   + ErrorType test()
+}
+
+ProposedCombination ..> ErrorType
+
+enum ErrorType {
+   none = 0,
+   length = 1,
+   color = 2
+}
+
+Combination <|-- SecretCombination
+Combination <|-- ProposedCombination
+Combination *-- "4" Color
+
+class Attempt {
+   + play()
+   
+}
+
+Attempt *--> ProposedCombination
+Attempt ..> Message
+Attempt --> SecretCombination
+Attempt ..> ErrorType
+
+class Console {
+}
+
+enum Color {
+   Red="r",
+   Blue="b",
+   Yellow="y",
+   Green="g",
+   Orange = "o",
+   Purple = "p"
+}
+
+enum Message {
+
+  attempt = "attempts",
+  Propose = "Propose a combination",
+  WrongLength = "Wrong proposed combination",
+  WrongColors = "Wrong colors, they must be: rbygop"
+}
+@enduml
